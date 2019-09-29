@@ -1,0 +1,18 @@
+﻿@page
+@model Spectromart.Pages.seo.CatalogModel
+@using Controllers.Entities.Contracts
+@{
+    ViewData["Title"] = "Каталог Спектромарт";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    var categories = await Model.GetEntities(new GetEntitiesContract
+    {
+        ParentIds = new[] { new Guid("00000000-0000-0000-0001-000000000003") },
+    });
+}
+
+@foreach (var category in categories)
+{
+    <div>
+        <a href="@Url.Content($"~/seo/category/{(string.IsNullOrEmpty(category.Code)? category.Id.ToString() : category.Code)}")">@category.Name</a>
+    </div>
+}

@@ -1,0 +1,71 @@
+{
+  "name": "Spectromart",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.4.0",
+    "@material-ui/icons": "^4.2.1",
+    "bootstrap": "^4.3.1",
+    "connected-react-router": "^6.5.2",
+    "material-design-icons": "^3.0.1",
+    "notistack": "^0.9.0",
+    "popper.js": "^1.14.3",
+    "react": "^16.9.0",
+    "react-copy-to-clipboard": "^5.0.1",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.1.1",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "^3.1.1",
+    "reactstrap": "^8.0.1",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
+    "redux-thunk-error-handler": "^1.1.3",
+    "rimraf": "^3.0.0",
+    "string-hash": "^1.1.3",
+    "typeface-roboto": "^0.0.75",
+    "renamer": "^1.1.2",
+    "replace": "^1.1.0"
+  },
+  "devDependencies": {
+    "redux-devtools-extension": "^2.13.8",
+    "ajv": "^6.10.2",
+    "babel-eslint": "^10.0.2",
+    "cross-env": "^5.2.1",
+    "eslint": "^6.3.0",
+    "eslint-config-react-app": "^5.0.1",
+    "eslint-plugin-flowtype": "^4.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "scripts": {
+    "start": "rimraf ./build && react-scripts start",
+    "build": "react-scripts build && npm run build-rename",
+    "test": "cross-env CI=true react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src/",
+    "build-rename": "npm run build-rename-js&&npm run build-rename-css&&npm run build-fix-sourcemap",
+    "build-rename-js": "renamer --find \"/main\\.[^\\.]+\\./ig\" --replace \"main.\" build\\static\\js\\*",
+    "build-rename-css": "renamer --find \"/main\\.[^\\.]+\\./ig\" --replace \"main.\" build\\static\\css\\*",
+    "build-fix-sourcemap": "npm run build-fix-sourcemap-js&&npm run build-fix-sourcemap-css",
+    "build-fix-sourcemap-js": "replace \"# sourceMappingURL=main..*.js.map\" \"# sourceMappingURL=main.js.map\" build\\static\\js\\main.js",
+    "build-fix-sourcemap-css": "replace \"# sourceMappingURL=main..*.map\" \"# sourceMappingURL=main.css.map\" build\\static\\css\\main.css"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "homepage": "/spectromart"
+}
