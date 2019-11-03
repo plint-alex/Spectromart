@@ -1,0 +1,42 @@
+﻿@page "~/seo/product/{productId}"
+@model Spectromart.Pages.seo.ProductModel
+@using Controllers.Entities.Contracts
+@{
+    ViewData["Title"] = "Каталог Спектромарт";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+
+    var currentProduct = await Model.GetEntities(new GetEntitiesContract
+    {
+        Ids = new[] { Model.ProductId },
+    });
+
+    var currentProductCharacteristic = await Model.GetEntities(new GetEntitiesContract
+    {
+        ParentIds = new[] { Model.ProductId, new Guid("00000000-0000-0000-0000-000000000007") },
+    });
+
+}
+
+@foreach (var product in currentProduct)
+{
+    var files = await Model.GetFiles(new Controllers.Files.Contracts.GetFilesContract { EntityIds = new Guid[] { product.Id } });
+    @if (files.Any())
+    {
+        <div>
+            <img style="height:50px" src="@Url.Content($"~/api/files/getFile/{files.First().Id}")" alt="@product.Name" />
+        </div>
+    }
+    <div>
+        @product.Name
+    </div>
+    <div>
+        @Html.Raw(@product.Description)
+    </div>
+}
+
+@foreach (var characteristic in currentProductCharacteristic)
+{
+    <div>
+        @Html.Raw(characteristic.Description)
+    </div>
+}

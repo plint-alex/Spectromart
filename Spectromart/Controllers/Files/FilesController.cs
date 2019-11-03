@@ -67,7 +67,7 @@ namespace Spectromart.Controllers.Files
         [AllowAnonymous]
         [HttpPost]
         [Route("getFiles")]
-        public async Task<List<FileResult>> GetFiles([FromBody]GetFilesContract contract)
+        public async Task<List<FileResult>> GetFiles([FromBody] GetFilesContract contract)
         {
             return (await _filesService.GetFiles(new GetFilesServiceContract { EntitiIds = contract.EntityIds, Ids = contract.Ids, Types = contract.Types }))
                 .Select(x => new FileResult { EntityId = x.EntityId, Id = x.Id, MimeType = x.MimeType, Type = x.Type }).ToList();

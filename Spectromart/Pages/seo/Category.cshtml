@@ -1,0 +1,46 @@
+﻿@page "~/seo/category/{categoryId}"
+@model Spectromart.Pages.seo.CategoryModel
+@using Controllers.Entities.Contracts
+@{
+    ViewData["Title"] = "Категория Спектромарт";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+
+    var currentCategoryCategory = await Model.GetEntities(new GetEntitiesContract
+    {
+        Ids = new[] { Model.CategoryId },
+    });
+
+    var products = await Model.GetEntities(new GetEntitiesContract
+    {
+        ParentIds = new[] { Model.CategoryId, new Guid("00000000-0000-0000-0001-000000000004") },
+    });
+
+    var categories = await Model.GetEntities(new GetEntitiesContract
+    {
+        ParentIds = new[] { Model.CategoryId, new Guid("00000000-0000-0000-0001-000000000003") },
+    });
+}
+
+@foreach (var category in currentCategoryCategory)
+{
+    <div>
+        @category.Name
+    </div>
+    <div>
+        @category.Description
+    </div>
+}
+
+@foreach (var product in products)
+{
+    <div>
+        <a href="@Url.Content($"~/seo/product/{(string.IsNullOrEmpty(product.Code)? product.Id.ToString() : product.Code)}")">@product.Name</a>
+    </div>
+}
+
+@foreach (var category in categories)
+{
+    <div>
+        <a href="@Url.Content($"~/seo/category/{(string.IsNullOrEmpty(category.Code)? category.Id.ToString() : category.Code)}")">@category.Name</a>
+    </div>
+}
