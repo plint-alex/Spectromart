@@ -4,9 +4,10 @@
 @{
     ViewData["Title"] = "Каталог Спектромарт";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+       
     var categories = await Model.GetEntities(new GetEntitiesContract
     {
-        ParentIds = new[] { new Guid("00000000-0000-0000-0001-000000000003") },
+        ParentIds = new[] { new Guid("00000000-0000-0000-0000-000000000002") },
     });
 }
 

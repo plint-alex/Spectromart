@@ -106,15 +106,15 @@ namespace Spectromart
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                //routes.MapRoute(
+                //    name: "default",
+                //    template: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
-                //spa.Options.DefaultPage = "/Pages/Index";
+                spa.Options.DefaultPage = "/Pages/Index2";
 
                 if (env.IsDevelopment())
                 {
