@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import NewsLine from '../NewsPage/NewsLine';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import MainImage from './images/main.jpg';
+import MainImage from '../images/main.jpg';
 
 const useStyles = makeStyles(theme => ({
     mainImage: {

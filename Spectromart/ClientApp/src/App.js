@@ -8,6 +8,7 @@ import MainLayout from './components/MainLayout/MainLayout';
 import HomePage from './components/pages/HomePage/HomePage';
 import AdminPage from './components/pages/AdminPage/AdminPage';
 import AboutPage from './components/pages/AboutPage/AboutPage';
+import ServicePage from './components/pages/ServicePage/ServicePage';
 import LoginPage from './components/pages/LoginPage/LoginPage';
 import ProductPage from './components/pages/EntitiesPage/ProductPage';
 import CategoriesPage from './components/pages/EntitiesPage/CategoriesPage';
@@ -36,6 +37,11 @@ const theme = createMuiTheme({
         primary: { main: '#FFFFFF' },
         secondary: { main: '#328BCB' },
     },
+    typography: {
+        fontFamily: [
+            'PTSansRegular',
+        ].join(','),
+    }, 
 });
 
 export default () => {
@@ -58,6 +64,7 @@ export default () => {
                     <PrivateRoute exact path="/news" component={NewsPage} />
                     <PrivateRoute exact path="/news/:id" component={NewsDitailPage} />
                     <PrivateRoute exact path="/about" component={AboutPage} />
+                    <PrivateRoute exact path="/service" component={ServicePage} />
                     <PrivateRoute exact path="/" component={HomePage} />
                 </Layout>
             </Switch >

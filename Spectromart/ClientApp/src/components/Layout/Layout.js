@@ -29,12 +29,14 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import CloseIcon from '@material-ui/icons/Close';
+import { fontWeight } from '@material-ui/system';
 
 
 const styles = theme => ({
     root: {
         margin: 0,
         padding: theme.spacing(2),
+        fontFamily: 'PTSansRegular',
     },
     closeButton: {
         position: 'absolute',
@@ -42,6 +44,7 @@ const styles = theme => ({
         top: theme.spacing(1),
         color: theme.palette.grey[500],
     },
+    
 });
 
 const DialogTitle = withStyles(styles)(props => {
@@ -63,6 +66,7 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         minHeight: '100vh',
+        
     },
     footerRoot: {
         display: 'flex',
@@ -221,7 +225,7 @@ const Layout = (props) => {
                                 <img className={classes.logo} src={LogoImage} alt="Spectromart" />
                             </Link>
                         </Typography>
-                        <Typography className={classes.title} noWrap>
+                        <Typography className={classes.title} style={{ fontWeight: 600, }} noWrap>
                             Поставка, производство и сервис<br />аналитического и лабораторного оборудования
                     </Typography>
                         <div className={classes.search}>
@@ -253,6 +257,7 @@ const Layout = (props) => {
                             <Tab value={'/'} label="Главная" component={Link} to={'/'} />
                             <Tab value={'/about'} label="О компании" component={Link} to={'/about'} />
                             <Tab value={'/catalog'} label="Каталог" component={Link} to={'/catalog'} />
+                            <Tab value={'/service'} label="Сервис" component={Link} to={'/service'} />
                             <Tab value={'/news'} label="Новости" component={Link} to={'/news'} />
                         </Tabs>
                     </Toolbar>

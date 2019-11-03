@@ -17,7 +17,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 const drawerWidth = 240;
 
 const styles = theme => ({
-
+    
 });
 
 class LeftMenuListComponent extends Component {
@@ -66,7 +66,7 @@ class LeftMenuListComponent extends Component {
                                 this.props.fetchEntities({ parentIds: [entity.id, '00000000-0000-0000-0001-000000000003'] }, childCategoryStorageValue, true);
                             return (
                                 <Fragment key={entity.id}>
-                                    <ListItem button onClick={(e) => { this.handleListItemClick(entity.id); }}>
+                                    <ListItem style={{paddingLeft: level*12}} button onClick={(e) => { this.handleListItemClick(entity.id); }}>
                                         <ListItemText primary={entity.name} />
                                         {hasChildren && (this.state.isOpen[entity.id] ?
                                             <ExpandLess onClick={(e) => { e.stopPropagation(); this.handleClick(entity.id); }} /> :
