@@ -1,12 +1,9 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import MainImage from '../images/main.jpg';
-import CallUsDialog from '../../Layout/CallUsDialog';
 import CallUsDialogService from '../../Layout/CallUsDialogService';
 
 const useStyles = makeStyles(theme => ({

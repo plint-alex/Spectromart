@@ -46,7 +46,7 @@ const theme = createMuiTheme({
 
 export default () => {
     return (<ThemeProvider theme={theme}>
-        <SnackbarProvider preventDuplicate={false}>
+        <SnackbarProvider preventDuplicate={false} autoHideDuration={20000}>
             <Switch>
                 <Route path="/seo" render={props => {
                     const asdf = props.location;

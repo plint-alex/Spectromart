@@ -84,7 +84,7 @@ class CallUsDialog extends Component {
 }
 
 CallUsDialog = reduxForm({
-    form: 'Entity', // a unique identifier for this form
+    form: 'CallUsDialog', // a unique identifier for this form
     destroyOnUnmount: true,
     forceUnregisterOnUnmount: true,
     enableReinitialize: true,

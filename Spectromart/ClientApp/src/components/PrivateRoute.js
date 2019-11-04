@@ -9,7 +9,7 @@ let PrivateRoute = ({ component: Component, ...rest }) => {
         <Route {...rest} render={props => {
             const location = window.location;
             //window.location.href.includes('/seo/')
-            return props.isLoggedIn
+            return rest.isLoggedIn
                 ? <Component {...props} />
                 : props.location.pathname === '/admin'
                     ? <Redirect to={{ pathname: '/login', state: { from: props.location } }} />

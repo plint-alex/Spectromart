@@ -40,19 +40,19 @@ class Notifier extends Component {
 
     componentDidUpdate() {
         const props = this.props;
-        const { notifications = [] } = props;
+        const { notifications = [], closeSnackbar1, enqueueSnackbar } = props;
 
         notifications.forEach(({ key, message, options = {} }) => {
             // Do nothing if snackbar is already displayed
             if (this.displayed.includes(key)) return;
             // Display snackbar using notistack
-            this.props.enqueueSnackbar(message, {
+            enqueueSnackbar(message, {
                 action: key => (<IconButton
                     key="close"
                     aria-label="убрать"
                     color="inherit"
                     onClick={() => {
-                        return props.closeSnackbar1(key);
+                        return closeSnackbar1(key);
                     }
                     }
                 >

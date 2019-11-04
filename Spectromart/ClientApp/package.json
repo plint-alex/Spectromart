@@ -49,15 +49,18 @@
   },
   "scripts": {
     "start": "rimraf ./build && react-scripts start",
-    "build": "react-scripts build && npm run build-rename",
+    "build": "set \"INLINE_RUNTIME_CHUNK=false\" && react-scripts build && npm run build-rename",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/",
-    "build-rename": "npm run build-rename-js&&npm run build-rename-css&&npm run build-fix-sourcemap",
-    "build-rename-js": "renamer --find \"/main\\.[^\\.]+\\./ig\" --replace \"main.\" build\\static\\js\\*",
+    "build-rename": "npm run build-rename-js&&npm run build-rename-chunk-js&&npm run build-fix-sourcemap",
+    "build-rename-js": "renamer --find \"/runtime~main\\.[^\\.]+\\./ig\" --replace \"runtime~main.\" build\\static\\js\\*",
+    "build-rename-chunk-js": "renamer --find \"/\\.[^\\.]+\\.chunk\\./ig\" --replace \".chunk.\" build\\static\\js\\*",
     "build-rename-css": "renamer --find \"/main\\.[^\\.]+\\./ig\" --replace \"main.\" build\\static\\css\\*",
-    "build-fix-sourcemap": "npm run build-fix-sourcemap-js&&npm run build-fix-sourcemap-css",
-    "build-fix-sourcemap-js": "replace \"# sourceMappingURL=main..*.js.map\" \"# sourceMappingURL=main.js.map\" build\\static\\js\\main.js",
+    "build-fix-sourcemap": "npm run build-fix-sourcemap-js && npm run build-fix-sourcemap-chunk-js && npm run build-fix-sourcemap-main-chunk-js",
+    "build-fix-sourcemap-js": "replace \"# sourceMappingURL=runtime~main..*.js.map\" \"# sourceMappingURL=runtime~main.js.map\" build\\static\\js\\runtime~main.js",
+    "build-fix-sourcemap-chunk-js": "replace \"# sourceMappingURL=..*.chunk.js.map\" \"# sourceMappingURL=chunk.js.map\" build\\static\\js\\2.chunk.js",
+    "build-fix-sourcemap-main-chunk-js": "replace \"# sourceMappingURL=..*.chunk.js.map\" \"# sourceMappingURL=chunk.js.map\" build\\static\\js\\main.chunk.js",
     "build-fix-sourcemap-css": "replace \"# sourceMappingURL=main..*.map\" \"# sourceMappingURL=main.css.map\" build\\static\\css\\main.css"
   },
   "browserslist": {

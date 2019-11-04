@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Hosting
+@inject IHostingEnvironment env
+@{
     Layout = null;
     var publicUrl = @Url.Content("~/");
 }
@@ -58,8 +60,17 @@
       To create a entityion bundle, use `npm run build` or `yarn build`.
     -->
 
-    <script src="/static/js/bundle.js"></script>
-    <script src="/static/js/0.chunk.js"></script>
-    <script src="/static/js/main.chunk.js"></script>
+    @if (env.IsDevelopment())
+    {
+        <script src="/static/js/bundle.js"></script>
+        <script src="/static/js/0.chunk.js"></script>
+        <script src="/static/js/main.chunk.js"></script>
+    }
+    else
+    {
+        <script src="/spectromart/static/js/runtime~main.js"></script>
+        <script src="/spectromart/static/js/2.chunk.js"></script>
+        <script src="/spectromart/static/js/main.chunk.js"></script>
+    }
 </body>
 </html>

@@ -114,7 +114,7 @@ namespace Spectromart
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
-                spa.Options.DefaultPage = "/Pages/Index2";
+                //spa.Options.DefaultPage = "/Pages/Index2";
 
                 if (env.IsDevelopment())
                 {

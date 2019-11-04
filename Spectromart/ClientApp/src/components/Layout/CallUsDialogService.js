@@ -8,6 +8,7 @@ import { renderTextField, renderCheckbox } from '../common/Controls';
 import { withStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import { Grid } from '@material-ui/core';
+import * as Notifier from '../../store/Notifier';
 
 //import Modal from '@material-ui/core/Modal';
 //import Fade from '@material-ui/core/Fade';
@@ -54,45 +55,53 @@ class CallUsDialogService extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            entityId: props.match.params.id,
+            enabled: true,
         };
+        this.setEnabled = this.setEnabled.bind(this);
     }
+
+    setEnabled(enabled) {
+        //enqueueSnackbar('This is a success message!', { variant:'success' });
+        //this.setState({ ...this.state, enabled });
+    }
+
     render() {
-        const { handleSubmit, onAddEntity, classes, closeDialog, entityId } = this.props;
-        const color = entityId ? 'secondary' : 'primary';
+        const { handleSubmit, onAddEntity, classes, closeDialog, enqueueSnackbar } = this.props;
+        const { enabled } = this.state;
+        const color = enabled ? 'secondary' : 'primary';
         return (
             <Grid container spacing={3} className={classes.paper}>
                 <Grid item xs={12}>
                     <h3>Информация</h3>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                <Field className={classes.field} component={renderTextField} name="organizationName" label="Название организации"
-                    autoComplete="organizationName"/* autoFocus*/
+                    <Field className={classes.field} component={renderTextField} name="organizationName" label="Название организации"
+                        autoComplete="organizationName"/* autoFocus*/
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                <Field className={classes.field} component={renderTextField} name="name" label="Контактное лицо" rowsMax="4"
-                    autoComplete="name"/* autoFocus*/
+                    <Field className={classes.field} component={renderTextField} name="name" label="Контактное лицо" rowsMax="4"
+                        autoComplete="name"/* autoFocus*/
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                <Field className={classes.field} component={renderTextField} name="phoneNumber" label="Номер телефона"
-                    autoComplete="phoneNumber"/* autoFocus*/
+                    <Field className={classes.field} component={renderTextField} name="phoneNumber" label="Номер телефона"
+                        autoComplete="phoneNumber"/* autoFocus*/
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                <Field className={classes.field} component={renderTextField} name="email" label="E-Mail"
-                    autoComplete="email"/* autoFocus*/
+                    <Field className={classes.field} component={renderTextField} name="email" label="E-Mail"
+                        autoComplete="email"/* autoFocus*/
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                <Field className={classes.field} component={renderTextField} name="responsible" label="Ответственный за ремонт"
-                    autoComplete="responsible"/* autoFocus*/
+                    <Field className={classes.field} component={renderTextField} name="responsible" label="Ответственный за ремонт"
+                        autoComplete="responsible"/* autoFocus*/
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                <Field className={classes.field} component={renderTextField} name="address" label="Адрес нахождения оборудования"
-                    autoComplete="address"/* autoFocus*/
+                    <Field className={classes.field} component={renderTextField} name="address" label="Адрес нахождения оборудования"
+                        autoComplete="address"/* autoFocus*/
                     />
                 </Grid>
 
@@ -105,7 +114,7 @@ class CallUsDialogService extends Component {
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <Field className={classes.field} component={renderTextField} name="equipmentModel" label="Модель" 
+                    <Field className={classes.field} component={renderTextField} name="equipmentModel" label="Модель"
                         autoComplete="equipmentModel"/* autoFocus*/
                     />
                 </Grid>
@@ -132,10 +141,8 @@ class CallUsDialogService extends Component {
                     variant="contained"
                     color={color}
                     className={classes.addEntityButton}
-                    onClick={handleSubmit(data => { onAddEntity({ name: data.name + '; ' + data.organizationName, description: (entityId ? entityId + '; ' : '') + data.phoneNumber, parentIds: ['00000000-0000-0000-0000-000000000004'] }); if (closeDialog) { closeDialog(); } })}
-                >
-                    {entityId && 'Узнать точную цену'}
-                    {!entityId && 'Отправить'}
+                    onClick={handleSubmit(data => { if (enabled) { enqueueSnackbar({ message: 'Заявка отправлена, наши менеджеры свяжутся с вами', options: { key: 'CallUsDialogServiceNotifier', variant: 'success' } }); onAddEntity({ name: data.name + '; ' + data.organizationName, description: `${data.phoneNumber}; ${data.email}; ${data.responsible}; ${data.address}; ${data.equipmentType}; ${data.equipmentModel}; ${data.serialNumber}; ${data.guarantee}; ${data.description}`, parentIds: ['00000000-0000-0000-0000-000000000004'] }); if (closeDialog) { closeDialog(); } } })}  >
+                    Отправить
                 </Button>
             </Grid>
         )
@@ -143,7 +150,7 @@ class CallUsDialogService extends Component {
 }
 
 CallUsDialogService = reduxForm({
-    form: 'Entity', // a unique identifier for this form
+    form: 'CallUsDialogService', // a unique identifier for this form
     destroyOnUnmount: true,
     forceUnregisterOnUnmount: true,
     enableReinitialize: true,
@@ -161,6 +168,7 @@ let mapState = (state) => {
 let mapDispatch = (dispatch) => {
     return {
         onAddEntity: bindActionCreators(actionCreators.addEntity, dispatch),
+        enqueueSnackbar: bindActionCreators(Notifier.actionCreators.enqueueSnackbar, dispatch),
     };
 };
 
