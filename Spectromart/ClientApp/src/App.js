@@ -60,7 +60,7 @@ export default () => {
                     <PrivateRoute exact path="/login" component={LoginPage} />
                     <PrivateRoute path="/product/:id" component={ProductPage} />
                     <PrivateRoute path="/category/:id" component={CategoryPage} level={1} />
-                    <PrivateRoute exact path="/catalog" component={CategoriesPage} />
+                    <PrivateRoute exact path="/catalog" component={CategoriesPage} level={1} />
                     <PrivateRoute exact path="/news" component={NewsPage} />
                     <PrivateRoute exact path="/news/:id" component={NewsDitailPage} />
                     <PrivateRoute exact path="/about" component={AboutPage} />

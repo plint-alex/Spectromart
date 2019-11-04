@@ -10,10 +10,10 @@ let PrivateRoute = ({ component: Component, ...rest }) => {
             const location = window.location;
             //window.location.href.includes('/seo/')
             return rest.isLoggedIn
-                ? <Component {...props} />
+                ? <Component {...props} {...rest}/>
                 : props.location.pathname === '/admin'
                     ? <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
-                    : <Component {...props} />;
+                    : <Component {...props} {...rest} />;
         }} />
     );
 };
