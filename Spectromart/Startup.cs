@@ -6,14 +6,16 @@ using BusinessLayer.Services.Contracts.Files;
 using DataAccess;
 using DataAccess.Contracts;
 using DataAccess.Services;
+using JavaScriptEngineSwitcher.ChakraCore;
+using JavaScriptEngineSwitcher.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -41,9 +43,10 @@ namespace Spectromart
 
 
             services.AddMemoryCache();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllersWithViews();
+            services.AddRazorPages();
 
-            // In entityion, the React files will be served from this directory
+            // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
@@ -84,7 +87,7 @@ namespace Spectromart
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DbInitializer dbInitializer)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -95,26 +98,28 @@ namespace Spectromart
                 app.UseExceptionHandler("/Error");
             }
 
-            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseRouting();
 
             app.UseExceptionHandler(new ExceptionHandlerOptions
             {
                 ExceptionHandler = new JsonExceptionMiddleware().Invoke
             });
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                //routes.MapRoute(
-                //    name: "default",
-                //    template: "{controller}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
-                //spa.Options.DefaultPage = "/Pages/Index2";
 
                 if (env.IsDevelopment())
                 {
@@ -122,12 +127,20 @@ namespace Spectromart
                 }
             });
 
+            JsEngineSwitcher.Current.DefaultEngineName = ChakraCoreJsEngine.EngineName;
+            JsEngineSwitcher.Current.EngineFactories.AddChakraCore();
+
+
             dbInitializer.Seed(new List<(Guid Id, string Name, string Description, string Code, bool hidden, Guid? parentId)> {
                 (new Guid("00000000-0000-0000-0000-000000000001"), "special", "","special", false, null),
                 (new Guid("00000000-0000-0000-0001-000000000001"), "mainImage", "","mainImage", false ,new Guid("00000000-0000-0000-0000-000000000001")),
                 (new Guid("00000000-0000-0000-0001-000000000002"), "image", "","image", false ,new Guid("00000000-0000-0000-0000-000000000001")),
                 (new Guid("00000000-0000-0000-0001-000000000003"), "category", "", "category", false ,new Guid("00000000-0000-0000-0000-000000000001")),
                 (new Guid("00000000-0000-0000-0001-000000000004"), "product", "", "product", false ,new Guid("00000000-0000-0000-0000-000000000001")),
+                (new Guid("00000000-0000-0000-0001-000000000005"), "languge", "","languge", false ,new Guid("00000000-0000-0000-0000-000000000001")),
+                (new Guid("00000000-0000-0000-0001-000000000006"), "name", "","name", false ,new Guid("00000000-0000-0000-0000-000000000001")),
+                (new Guid("00000000-0000-0000-0001-000000000007"), "description", "","description", false ,new Guid("00000000-0000-0000-0000-000000000001")),
+                (new Guid("00000000-0000-0001-0005-000000000001"), "russian", "ru","русский", false ,new Guid("00000000-0000-0000-0001-000000000005")),
                 (new Guid("00000000-0000-0000-0000-000000000002"), "categories", "","categories", false , null),
                 (new Guid("00000000-0000-0000-0000-000000000004"), "messages", "","messages", false , null),
                 (new Guid("00000000-0000-0000-0000-000000000005"), "ProductSamplePreparation", "","ProductSamplePreparation", false , new Guid("00000000-0000-0000-0000-000000000001")),

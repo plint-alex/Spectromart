@@ -68,14 +68,14 @@ namespace DataAccess.Services
 
         public async Task DeleteEntity(Guid entityId)
         {
-            await _applicationDbContext.Database.ExecuteSqlCommandAsync($"DELETE From Entities WHERE Id = @Id", new SqlParameter("@Id", entityId));
+            await _applicationDbContext.Database.ExecuteSqlRawAsync($"DELETE From Entities WHERE Id = @Id", new { Id = entityId });
         }
 
         public async Task DeleteRelation(Guid entityId, Guid entityParentId)
         {
-            await _applicationDbContext.Database.ExecuteSqlCommandAsync($"DELETE From EntityRelations WHERE EntityId = @EntityId AND EntityParentId = @EntityParentId",
-                new SqlParameter("@EntityId", entityId),
-                new SqlParameter("@EntityParentId", entityParentId));
+            await _applicationDbContext.Database.ExecuteSqlRawAsync($"DELETE From EntityRelations WHERE EntityId = @EntityId AND EntityParentId = @EntityParentId",
+                new { EntityId = entityId },
+                new { EntityParentId = entityParentId });
         }
     }
 }
