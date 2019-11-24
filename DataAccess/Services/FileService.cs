@@ -37,7 +37,7 @@ namespace DataAccess.Services
 
         public async Task DeleteFile(Guid fileId)
         {
-            await _applicationDbContext.Database.ExecuteSqlRawAsync($"DELETE From Files WHERE Id = @Id", new { Id = fileId });
+            await _applicationDbContext.Database.ExecuteSqlInterpolatedAsync($"DELETE From Files WHERE Id = {fileId}");
         }
     }
 }
