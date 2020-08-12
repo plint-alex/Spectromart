@@ -98,11 +98,12 @@ namespace Spectromart
                 app.UseExceptionHandler("/Error");
             }
 
-            app.UseAuthorization();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseExceptionHandler(new ExceptionHandlerOptions
             {

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Spectromart.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel1 : PageModel
     {
         public void OnGet()
         {

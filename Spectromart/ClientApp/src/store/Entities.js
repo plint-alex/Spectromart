@@ -88,7 +88,7 @@ export const actionCreators = {
             
             await apiRequest(`${baseUrl}deleteEntity`, 'POST', data);
 
-            commonOperations.fetchEntities(dispatch, { parentIds: [entityId] }, 'children');
+            commonOperations.fetchEntities(dispatch, entityId ? { parentIds: [entityId] } : {}, 'children');
         };
     },
 
